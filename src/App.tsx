@@ -1,10 +1,9 @@
-import { Container, Heading } from '@chakra-ui/react';
-import { useState } from 'react';
-import './App.css';
+import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
+import Column from './components/Column';
+import { ColumnType } from './utils/enums';
+
 
 function App() {
-	const [count, setCount] = useState(0);
-
 	return (
 		<>
 			<Heading
@@ -18,6 +17,12 @@ function App() {
 			Kanban Board<br/>To-do list
 			</Heading>
 			<Container maxWidth='container.lg' px={4} py={10}>
+				<SimpleGrid columns={{base : 1, md: 4 }}>
+					<Column column={ColumnType.TO_DO}/>
+					<Column column={ColumnType.IN_PROGRESS}/>
+					<Column column={ColumnType.BLOCKED}/>
+					<Column column={ColumnType.COMPLETED}/>
+				</SimpleGrid>
 			</Container>
 		</>
 	);
