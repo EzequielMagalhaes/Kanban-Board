@@ -5,9 +5,25 @@ import { TaskModel } from "../utils/models";
 type TaskProps ={
     index: number;
     task: TaskModel;
+    onUpdate: (id:TaskModel['id'],updateTask: TaskModel)=> void;
+    onDelete: (id:TaskModel['id'])=> void;
 };
 
-function Task({ index, task}: TaskProps){
+function Task({ 
+        index,
+        task,
+        onUpdate:handleUpdate,
+        onDelete:handleDelete,
+    }: TaskProps){
+        const handleTitleChange = (e:React.ChangeEvent<HTMLTextAreaElement>)=>{
+            const newTitle = e.target.value;
+            handleUpdate(task.id, { ...task, title: newTitle });
+        };
+
+        const handleDeleteClick = ()=>{
+            handleDelete(task.id);
+        };
+    
     return (
         <Box
             as='div'
@@ -34,7 +50,9 @@ function Task({ index, task}: TaskProps){
                 color='gray.700'
                 icon={<DeleteIcon/>}
                 opacity={0}
-                _groupHover={{opacity:1,}}
+                _groupHover={{opacity:1,
+                }}
+                onClick={handleDeleteClick}
             />
             <Textarea
                 value={task.title}
@@ -46,6 +64,7 @@ function Task({ index, task}: TaskProps){
                 minH={70} // heinght minima
                 maxH={200} // heinght maxima
                 color='gray.700'
+                onChange={handleTitleChange}
             />
         </Box>
     );
