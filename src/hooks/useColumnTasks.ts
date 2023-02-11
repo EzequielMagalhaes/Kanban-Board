@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import Task from "../components/Task";
 import { ColumnType } from "../utils/enums";
 import { pickChakraRandomColor } from "../utils/helper";
 import { TaskModel } from "../utils/models";
@@ -51,7 +52,6 @@ const addEmptyTask = useCallback(()=>{
         [column,setTasks],
     );
 
-
     const deleteTask = useCallback(
         (id:TaskModel['id'])=>{
             console.log(`Removing task ${id}..`);
@@ -67,11 +67,35 @@ const addEmptyTask = useCallback(()=>{
         [column,setTasks],
     );
 
+    const dropTaskFrom = useCallback(
+        (from:ColumnType, id: TaskModel['id'])=>{
+            setTasks((allTasks)=>{
+                const fromColumnTasks = allTasks[from];
+                const toColumnTasks = allTasks[column];
+                const movingTask = fromColumnTasks.find((task)=>task.id === id);
+
+                console.log(`Moving task ${movingTask?.id} from ${from} to ${column}`);
+                
+                if(!movingTask){
+                    return allTasks;
+                }
+                //remove the task from the original column and copy it within the destination column
+                return {
+                    ...allTasks,
+                    [from]: fromColumnTasks.filter((task)=> task.id !== id),
+                    [column]: [{...movingTask, column}, ...toColumnTasks],
+                };
+            });
+        },
+        [column,setTasks],
+    );
+
     return{
         tasks: tasks[column],
         addEmptyTask,
         updateTask,
         deleteTask,
+        dropTaskFrom,
     };
 }
 

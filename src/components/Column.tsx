@@ -8,6 +8,7 @@ import {
     useColorModeValue,
 }from '@chakra-ui/react';
 import { update } from "lodash";
+import useColumnDrop from "../hooks/useColumnDrop";
 import useColumnTasks from "../hooks/useColumnTasks";
 import { ColumnType } from "../utils/enums";
 import { TaskModel } from "../utils/models";
@@ -21,7 +22,9 @@ const ColumnColorScheme: Record<ColumnType, string> ={
 };
 
 function Column({ column }:{ column: ColumnType}){
-const { tasks, addEmptyTask, updateTask, deleteTask } = useColumnTasks(column);
+const { tasks, addEmptyTask, updateTask, deleteTask, dropTaskFrom } = useColumnTasks(column);
+
+const {dropRef, isOver} = useColumnDrop(column, dropTaskFrom)
 
     const ColumnTasks = tasks.map((task,index)=>{
         <Task
@@ -60,6 +63,7 @@ const { tasks, addEmptyTask, updateTask, deleteTask } = useColumnTasks(column);
             />
 
             <Stack
+            ref={dropRef}
             direction={{base: 'row', md: 'column'}}
             h={{base: 300, md: 600}}
             p={4}
@@ -69,6 +73,7 @@ const { tasks, addEmptyTask, updateTask, deleteTask } = useColumnTasks(column);
             rounded='lg'
             boxShadow='md'
             overflow='auto'
+            opacity={isOver ? 0.85 : 1}
             >
                 {ColumnTasks}
             </Stack>
