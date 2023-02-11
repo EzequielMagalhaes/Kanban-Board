@@ -2,6 +2,7 @@ import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Column from './components/Column';
+import DarkModeIconButton from './components/DarkModeIconButton';
 import { ColumnType } from './utils/enums';
 
 
@@ -18,6 +19,7 @@ function App() {
 			>
 			Kanban Board<br/>To-do list
 			</Heading>
+			<DarkModeIconButton position='absolute' top={0} right={2}/>
 			<Container maxWidth='container.lg' px={4} py={10}>
 				<DndProvider backend={HTML5Backend}>
 					<SimpleGrid columns={{base : 1, md: 4 }}>
