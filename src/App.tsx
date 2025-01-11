@@ -17,7 +17,7 @@ function App() {
 				bgClip='text'
 				mt={4}
 			>
-			Kanban Board<br/>To-do list
+			Kanban Board<br/>
 			</Heading>
 			<DarkModeIconButton position='absolute' top={0} right={2}/>
 			<Container maxWidth='container.lg' px={4} py={10}>
